@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>User List</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<nav>
+    <a th:href="@{/}">Home</a>
+    <a th:if="${#authentication.name == 'anonymousUser'}" th:href="@{/register}">Register</a>
+    <a th:if="${#authentication.name == 'anonymousUser'}" th:href="@{/login}">Login</a>
+    <span th:if="${#authentication.name != 'anonymousUser'}">
+        Welcome, <span th:text="${#authentication.name}"></span>!
+        <form th:action="@{/logout}" method="post" style="display:inline;">
+            <button type="submit" class="logout-button">
+                Logout
+            </button>
+        </form>
+    </span>
+</nav>
+
+<h1>User List</h1>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Password</th>
+        <th>Actions</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.username}"></td>
+        <td th:text="${user.email}"></td>
+        <td th:text="${user.password}"></td>
+        <td>
+            <a th:href="@{/edit-user(username=${user.username})}">Edit User</a>
+        </td>
+        <td>
+            <a th:href="@{/delete-user(username=${user.username})}">Delete User</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<button onclick="window.location.href='/register'">Add New User</button>
+</body>
+</html>

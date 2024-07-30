@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title th:text="${title}">Home Page</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<nav>
+    <a th:href="@{/}">Home</a>
+    <a th:if="${#authentication.name == 'anonymousUser'}" th:href="@{/register}">Register</a>
+    <a th:if="${#authentication.name == 'anonymousUser'}" th:href="@{/login}">Login</a>
+    <a th:if="${#authentication.name != 'anonymousUser'}" th:href="@{/user-list}">User List</a>
+    <span th:if="${#authentication.name != 'anonymousUser'}">
+        Welcome, <span th:text="${#authentication.name}"></span>!
+        <form th:action="@{/logout}" method="post" style="display:inline;">
+            <button type="submit" class="logout-button">
+                Logout
+            </button>
+        </form>
+    </span>
+</nav>
+
+<h1 th:text="${message}"></h1>
+<button onclick="window.location.href='/register'">Register</button>
+<button onclick="window.location.href='/login'">Login</button>
+</body>
+</html>

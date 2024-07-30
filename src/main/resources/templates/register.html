@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Register</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+
+</head>
+<body>
+<nav>
+    <a th:href="@{/}">Home</a>
+    <a th:if="${#authentication.name == 'anonymousUser'}" th:href="@{/login}">Login</a>
+    <a th:if="${#authentication.name != 'anonymousUser'}" th:href="@{/user-list}">User List</a>
+    <span th:if="${#authentication.name != 'anonymousUser'}">
+        Welcome, <span th:text="${#authentication.name}"></span>!
+        <form th:action="@{/logout}" method="post" style="display:inline;">
+            <button type="submit" class="logout-button">
+                Logout
+            </button>
+        </form>
+    </span>
+</nav>
+
+<h1>Register</h1>
+<form th:action="@{/register}" th:object="${user}" method="post">
+    <label for="username">Username:</label>
+    <input type="text" id="username" th:field="*{username}" required />
+    <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="error">Username Error</div>
+    <br/>
+    <label for="email">Email:</label>
+    <input type="email" id="email" th:field="*{email}" required />
+    <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error">Email Error</div>
+    <br/>
+    <label for="password">Password:</label>
+    <input type="password" id="password" th:field="*{password}" required />
+    <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error">Password Error</div>
+    <br/>
+    <label for="conPassword">Confirm password:</label>
+    <input type="password" id="conPassword" th:field="*{conPassword}" required />
+    <div th:if="${#fields.hasErrors('conPassword')}" th:errors="*{conPassword}" class="error">Confirm Password Error</div>
+    <br/>
+    <div th:if="${conPasswordError}" th:text="${conPasswordError}" class="error"></div>
+    <br/>
+    <div class="password-toggle">
+        <input type="checkbox" id="showPassword" onclick="document.getElementById('password').type = this.checked ? 'text' : 'password'; document.getElementById('conPassword').type = this.checked ? 'text' : 'password';">
+        <label for="showPassword">Show Password</label>
+    </div>
+    <button type="submit">Register</button>
+</form>
+</body>
+</html>

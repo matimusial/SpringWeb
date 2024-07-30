@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<nav>
+    <a th:href="@{/}">Home</a>
+    <a th:if="${#authentication.name == 'anonymousUser'}" th:href="@{/register}">Register</a>
+    <a th:if="${#authentication.name != 'anonymousUser'}" th:href="@{/user-list}">User List</a>
+    <span th:if="${#authentication.name != 'anonymousUser'}">
+        Welcome, <span th:text="${#authentication.name}"></span>!
+        <form th:action="@{/logout}" method="post" style="display:inline;">
+            <button type="submit" class="logout-button">
+                Logout
+            </button>
+        </form>
+    </span>
+</nav>
+
+<h1>Login</h1>
+<form th:action="@{/login}" method="post">
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" required />
+    <br/>
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required />
+    <br/>
+    <div th:if="${param.error}" class="error">Invalid username or password</div>
+    <br/>
+    <button type="submit">Login</button>
+</form>
+<button onclick="window.location.href='/password/reset-password'">Reset password</button>
+</body>
+</html>
